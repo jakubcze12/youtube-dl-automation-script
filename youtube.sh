@@ -1,38 +1,20 @@
 #!/bin/sh
 
-# 1. Introduction
+#youtube-dl audiomation script 
+#version alpha 0.01
 
+
+echo ""; echo -n "Welcome to jacob's youtube-dl automation script. your youtube-dl version is: "; youtube-dl --version
 echo ""
-echo -n "Welcome to jacob's youtube-dl automation script. your youtube-dl version is: "; youtube-dl --version
-echo ""
 
-read -p "Enter link: " link
-read -p "Do you want to download audio or video? [a/v] " audio
-echo -n "Is it a playlist? [yes/no] "; read playlist 
-#echo -n "Enter directory in ~ : "; read dir
+read -p "Enter link (or playlist ID): " link
+read -p "Do you want to download audio or video? [a/v]" av
 
-if [$playlist -eq "no"]; then
 
-	case $audio in
-	
-		v ) youtube-dl -t -w $link;;
-		a ) youtube-dl -t -w $link --extract-audio;;
+	case $av in
+
+		a  ) youtube-dl --embed-thumbnail --extract-audio --audio-format mp3 $link;;
+		v  ) youtube-dl --embed-thumbnail $link;;
 
 	esac
 
-elif [$playlist -eq $yes]; then
-
-	case $audio in
-	
-		v ) youtube-dl -t -w --yes-playlist $link;;
-		a ) youtube-dl -t -w --yes-playlist $link --extract-audio;;
-
-	esac
-
-else
-
-	echo "Unexpected error, select valid letter [y/n] "; exit
-
-
-
-fi
