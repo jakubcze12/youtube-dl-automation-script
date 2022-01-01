@@ -1,31 +1,30 @@
 #!/bin/bash
 
 #youtube-dl audiomation script 
+#Download directory - change wherever you want it to be and it will change script-wide
+downloaddir=$($HOME/Music/download/) #> /dev/null 2>&1
 
-#echo -e -n "Welcome. This program aims to simplify youtube-dl. your youtube-dl version is: "; youtube-dl --version
-#echo "Examples of possible inputs will be shown in square brackets"
-read -p "Enter link (or playlist ID): " link echo 
+#{
+mkdir -pv $downloaddir/tmp{1..5}
+#} > /dev/null 2>&1
+read -p "Enter link (or playlist ID): " link 
 read -p "Do you want to download audio or video? [a/v] " av;
-echo -e "These are the contents of you home directory:"
-echo 
-ls ~/; echo 
-read -p "Download destination:(In your ~ home directory)] : " dir
+ls $USER/Music/download
+read -p "Download destination: (In /home/jacob/Music/download directory): " dir
+rm -rf $HOME/$downloaddir/$dir
 
-	#In the future, embeding subtitles required
-	#Fix exceptions
 
 	case $av in
 
 		a)	echo 
-			echo "1) mp3 (default)"
+			echo "1) m4a (recommended)"
 			echo "2) aac"
 			echo "3) flac"
-			echo "4) m4a"
+			echo "4) mp3"
 			echo 
 			read -p "Choose audio format: [mp3; wav] " aformat
-			echo ""
 
-			youtube-dl --embed-thumbnail --extract-audio --audio-format $aformat -o "~/$dir/%(title)s.%(ext)s" "$link";;
+			youtube-dl --embed-thumbnail --extract-audio --audio-format $aformat -o "$downloaddir/$dir/%(title)s.%(ext)s" "$link";;
 
 	#IMPORTANT: Make a "default" option for video formats
 
@@ -46,5 +45,11 @@ read -p "Download destination:(In your ~ home directory)] : " dir
 
 
 	esac
+
+{
+read -p "would you like to rename current temp directory?" renamedir
+mv $dir $renamedir
+} > /dev/null 2>&1
+
 
 exit
