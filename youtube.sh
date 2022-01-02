@@ -1,32 +1,32 @@
 #!/bin/bash
 
-#youtube-dl audiomation script 
-#Download directory - change wherever you want it to be and it will change script-wide
-downloaddir=$($HOME/Music/download/) #> /dev/null 2>&1
-
+downloaddir="$HOME/Music/download" 
+alldir="tmp1 tmp2 tmp3 tmp4 tmp5 tmp6 tmp7 tmp8 tmp9 tmp10"
 #{
-mkdir -pv $downloaddir/tmp{1..5}
+mkdir -p $downloaddir 
+mkdir $downloaddir/$alldir
 #} > /dev/null 2>&1
 read -p "Enter link (or playlist ID): " link 
 read -p "Do you want to download audio or video? [a/v] " av;
-ls $USER/Music/download
+ls $HOME/Music/download
 read -p "Download destination: (In /home/jacob/Music/download directory): " dir
 rm -rf $HOME/$downloaddir/$dir
 
-
 	case $av in
 
-		a)	echo 
-			echo "1) m4a (recommended)"
+		a)	echo "1) m4a (recommended)"
 			echo "2) aac"
 			echo "3) flac"
-			echo "4) mp3"
-			echo 
+			echo "4) mp3" 
 			read -p "Choose audio format: [mp3; wav] " aformat
 
-			youtube-dl --embed-thumbnail --extract-audio --audio-format $aformat -o "$downloaddir/$dir/%(title)s.%(ext)s" "$link";;
-
-	#IMPORTANT: Make a "default" option for video formats
+			youtube-dl 
+				
+				--embed-thumbnail \
+				--extract-audio \
+				--audio-format $aformat \
+				-o "$downloaddir/$dir/%(title)s.%(ext)s" \
+				"$link";;
 
 		v)	echo ""
 			echo "1) mp4 (subtitles supported)"
@@ -39,7 +39,12 @@ rm -rf $HOME/$downloaddir/$dir
 			read -p "Choose video format: [mp4; flv; ogg] " vformat
 
 
-		       	youtube-dl --recode-video $vformat -o "~/$dir/%(title)s.%(ext)s" --embed-subs "$link";;
+		       	youtube-dl 
+				
+				--recode-video $vformat 
+				-o "~/$dir/%(title)s.%(ext)s" 
+				--embed-subs 
+				"$link";;
 
 		*) 	echo "unexpected input"
 
